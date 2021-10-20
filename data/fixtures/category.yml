@@ -1,0 +1,3 @@
+data:
+    - { name: 'Concert', icon: 'fa-guitar' }
+    - { name: 'Festival', icon: 'fa-drum' }

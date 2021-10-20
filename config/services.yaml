@@ -1,4 +1,6 @@
 parameters:
+    fixture:
+        path: '%kernel.project_dir%/data/fixtures'
 
 services:
     _defaults:
