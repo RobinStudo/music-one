@@ -1,3 +1,16 @@
+@import "base/theme";
+@import "components/base/header";
+@import "components/base/footer";
+
 body{
     margin: 0;
+    font-family: theme-font('content');
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main{
+    flex: 1;
+    background-color: theme-color('secondary');
 }

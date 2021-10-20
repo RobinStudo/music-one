@@ -6,6 +6,9 @@
         <title>{% block title %}MusicOne{% endblock %}</title>
 
         {% block stylesheets %}
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto&family=Work+Sans:wght@400;700&display=swap">
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
 
@@ -14,6 +17,12 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% include "components/base/header.html.twig" %}
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+
+        {% include 'components/base/footer.html.twig' %}
     </body>
 </html>

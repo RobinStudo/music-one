@@ -1,0 +1,21 @@
+$colors: (
+    primary: #001d3d,
+    secondary: #003566,
+    tertiary: #ffc300,
+    light: #ecf0f1,
+    success: #2ecc71,
+    error: #e74c3c,
+);
+
+$fonts: (
+    title: 'Work Sans',
+    content: 'Roboto',
+);
+
+@function theme-color($key){
+    @return map-get($colors, $key);
+}
+
+@function theme-font($key) {
+    @return map-get($fonts, $key);
+}
