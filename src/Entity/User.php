@@ -13,6 +13,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const STATUS_ACTIVE = 'active';
+    const STATUS_BANNED = 'banned';
+    const STATUS_PENDING = 'pending';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

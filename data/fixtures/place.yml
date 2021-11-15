@@ -1,0 +1,13 @@
+data:
+    - label: Au boudin bar
+      address:
+          street: 6 Pl. Maurice Schumann
+          zipcode: 59000
+          city: Lille
+          country: FR
+    - label: Black Night
+      address:
+          street: 29 Rue de Roubaix
+          zipcode: 59000
+          city: Lille
+          country: FR

@@ -14,4 +14,9 @@ class TagFixtures extends AbstractFixtures
     {
         return 'tag';
     }
+
+    protected function getReferenceKey($entity): string
+    {
+        return $entity->getName();
+    }
 }

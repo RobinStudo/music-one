@@ -1,0 +1,9 @@
+data:
+    - email: paul.h@gmail.com
+      password: test
+      displayName: PaulH
+      status: STATUS_ACTIVE
+    - email: jean.o@gmail.com
+      password: test
+      displayName: JeanO
+      status: STATUS_ACTIVE

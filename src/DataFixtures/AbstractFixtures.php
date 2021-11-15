@@ -25,10 +25,17 @@ abstract class AbstractFixtures extends Fixture
             $entity = new $type;
 
             foreach($data as $key => $value){
-                $setter = sprintf('set%s', ucfirst($key));
-                $entity->$setter($value);
+                $hook = sprintf('hook%s', ucfirst($key));
+                if(method_exists($this, $hook)){
+                    $this->$hook($entity, $value);
+                }else{
+                    $setter = sprintf('set%s', ucfirst($key));
+                    $entity->$setter($value);
+                }
             }
 
+            $key = sprintf('%s_%s', $this->getFile(), $this->getReferenceKey($entity));
+            $this->addReference($key, $entity);
             $manager->persist($entity);
         }
 
@@ -37,4 +44,5 @@ abstract class AbstractFixtures extends Fixture
 
     protected abstract function getType(): string;
     protected abstract function getFile(): string;
+    protected abstract function getReferenceKey($entity): string;
 }
