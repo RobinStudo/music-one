@@ -9,6 +9,7 @@ Encore
     .setPublicPath('/build')
 
     .addEntry('app', './assets/js/app.js')
+    .addEntry('event_index', './assets/js/pages/event/index.js')
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

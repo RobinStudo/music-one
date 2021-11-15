@@ -1,0 +1,41 @@
+@import "../../base/theme";
+
+.event a{
+    background-color: theme-color('light');
+    color: theme-color('secondary');
+    margin: 20px 0;
+    display: flex;
+    gap: 20px;
+    height: 300px;
+    align-items: center;
+
+    img{
+        height: 100%;
+        width: 300px;
+        object-fit: cover;
+    }
+
+    .event-summary{
+        flex: 1;
+
+        h2{
+            font-size: 1.8rem;
+        }
+
+        aside{
+            display: flex;
+            justify-content: space-evenly;
+            font-size: 1.4rem;
+
+            i{
+                color: theme-color('tertiary');
+            }
+        }
+    }
+}
+
+.empty{
+    text-align: center;
+    font-size: 1.2rem;
+    margin: 40px 0;
+}

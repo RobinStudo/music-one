@@ -1,10 +1,12 @@
 @import "base/theme";
+@import "base/vendor";
 @import "components/base/header";
 @import "components/base/footer";
 
 body{
     margin: 0;
     font-family: theme-font('content');
+    color: theme-color('light');
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -13,4 +15,13 @@ body{
 main{
     flex: 1;
     background-color: theme-color('secondary');
+    padding: 20px;
+}
+
+h1{
+    margin-top: 0;
+}
+
+a{
+    text-decoration: none;
 }

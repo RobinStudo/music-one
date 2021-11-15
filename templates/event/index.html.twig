@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Découvrez nos événements - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('event_index') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event_index') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Nos événements</h1>
+
+    {% if events|length > 0 %}
+        <p>
+            Il y a {{ events|length }} événements disponible
+        </p>
+    {% endif %}
+
+    {% for event in events %}
+        <article class="event">
+            <a href="{{ path('event_show', {id: event.id}) }}">
+                <img src="{{ event.picture }}" alt="{{ event.name }}">
+                <div class="event-summary">
+                    <h2>{{ event.name }}</h2>
+                    <p>
+                        {{ event.description }}
+                    </p>
+                    <aside>
+                        <div>
+                            <i class="fas fa-euro-sign"></i>
+                            {{ event.price }}
+                        </div>
+                        <div>
+                            <i class="fas fa-calendar"></i>
+                            {{ event.startAt|date('d/m/Y H:i') }}
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker"></i>
+                            {{ event.place.label }}
+                        </div>
+                    </aside>
+                </div>
+            </a>
+        </article>
+    {% else %}
+        <p class="empty">
+            Aucun événement disponible pour le moment
+        </p>
+    {% endfor %}
+{% endblock %}
