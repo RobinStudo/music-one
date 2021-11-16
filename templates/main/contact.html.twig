@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Contact - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.phone) }}
+    {{ form_row(form.topic) }}
+    {{ form_row(form.message) }}
+
+    <button>Envoyer</button>
+    {{ form_end(form) }}
+{% endblock %}
+
