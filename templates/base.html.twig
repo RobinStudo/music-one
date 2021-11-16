@@ -19,6 +19,8 @@
     <body>
         {% include "components/base/header.html.twig" %}
 
+        {% include "components/base/notification.html.twig" %}
+
         <main class="{% block mainClass %}{% endblock %}">
             {% block body %}{% endblock %}
         </main>

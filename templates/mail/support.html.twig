@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MusicOne</title>
+    </head>
+    <body>
+        <h1>Demande de support</h1>
+        <p>
+            Une demande de support à été reçu
+        </p>
+        <ul>
+            <li>Nom : {{ contact.name }}</li>
+            <li>Email : {{ contact.email }}</li>
+            <li>Téléphone : {{ contact.phone ? contact.phone|phone_number_format() : 'Non renseigné' }}</li>
+            <li>Sujet : {{ contact.topic }}</li>
+        </ul>
+        <p>
+            {{ contact.message }}
+        </p>
+    </body>
+</html>
+!

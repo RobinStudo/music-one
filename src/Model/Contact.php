@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use libphonenumber\PhoneNumber;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class Contact
@@ -29,7 +30,7 @@ class Contact
      */
     private string $email;
 
-    private ?string $phone;
+    private ?PhoneNumber $phone;
 
     /**
      * @Assert\NotBlank(message="Vous devez choisir un sujet")
@@ -71,12 +72,12 @@ class Contact
         return $this;
     }
 
-    public function getPhone(): string
+    public function getPhone(): PhoneNumber
     {
         return $this->phone;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhone(?PhoneNumber $phone): self
     {
         $this->phone = $phone;
 

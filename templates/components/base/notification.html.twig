@@ -1,0 +1,9 @@
+<div class="notification-manager">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="notification notification-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>

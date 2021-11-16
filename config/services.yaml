@@ -1,6 +1,10 @@
 parameters:
     fixture:
         path: '%kernel.project_dir%/data/fixtures'
+    mailer:
+        templateFolder: mail/
+        senderAddress: noreply@music-one.com
+        supportAddress: support@music-one.com
 
 services:
     _defaults:

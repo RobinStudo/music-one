@@ -1,0 +1,21 @@
+.notification-manager{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    max-width: 300px;
+}
+
+.notification{
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    color: theme-color('light');
+    border-radius: 5px;
+
+    &.notification-notice{
+        background-color: theme-color('success');
+    }
+
+    &.notification-error{
+        background-color: theme-color('error');
+    }
+}

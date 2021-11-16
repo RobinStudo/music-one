@@ -3,9 +3,12 @@ namespace App\Controller;
 
 use App\Form\Type\ContactType;
 use App\Model\Contact;
+use App\Service\MailerService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -25,14 +28,19 @@ class MainController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request): Response
+    public function contact(Request $request, MailerService $mailer): Response
     {
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            // Envoi de mail
+            if($mailer->sendSupport($contact)) {
+                $this->addFlash('notice', 'Message envoyé');
+                return $this->redirectToRoute('main_contact');
+            }
+            
+            $this->addFlash('error', 'Echec de l\'envoi');
         }
 
         return $this->render('main/contact.html.twig', [
