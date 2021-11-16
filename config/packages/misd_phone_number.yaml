@@ -1,0 +1,8 @@
+#doctrine:
+#    dbal:
+#        types:
+#            phone_number: Misd\PhoneNumberBundle\Doctrine\DBAL\Types\PhoneNumberType
+
+misd_phone_number:
+    validator:
+        default_region: FR

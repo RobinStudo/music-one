@@ -2,10 +2,10 @@
 namespace App\Form\Type;
 
 use App\Model\Contact;
+use Misd\PhoneNumberBundle\Form\Type\PhoneNumberType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,8 +21,9 @@ class ContactType extends AbstractType
             ->add('email', EmailType::class, [
                 'label' => 'E-mail'
             ])
-            ->add('phone', TelType::class, [
+            ->add('phone', PhoneNumberType::class, [
                 'label' => 'Téléphone',
+                'default_region' => 'FR',
             ])
             ->add('topic', ChoiceType::class, [
                 'choices' => Contact::TOPIC,

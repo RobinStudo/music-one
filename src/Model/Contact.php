@@ -29,8 +29,7 @@ class Contact
      */
     private string $email;
 
-
-    private string $phone;
+    private ?string $phone;
 
     /**
      * @Assert\NotBlank(message="Vous devez choisir un sujet")
@@ -77,7 +76,7 @@ class Contact
         return $this->phone;
     }
 
-    public function setPhone(string $phone): self
+    public function setPhone(?string $phone): self
     {
         $this->phone = $phone;
 
