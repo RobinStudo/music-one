@@ -37,7 +37,7 @@
                         </div>
                         <div>
                             <i class="fas fa-calendar"></i>
-                            {{ event.startAt|date('d/m/Y H:i') }}
+                            {{ event.startAt|format_datetime('long', 'short') }}
                         </div>
                         <div>
                             <i class="fas fa-map-marker"></i>

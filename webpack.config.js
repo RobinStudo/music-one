@@ -10,6 +10,8 @@ Encore
 
     .addEntry('app', './assets/js/app.js')
     .addEntry('event_index', './assets/js/pages/event/index.js')
+    .addEntry('event_show', './assets/js/pages/event/show.js')
+
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()

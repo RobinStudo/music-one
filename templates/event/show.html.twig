@@ -1,7 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Evénement - {{ parent() }}{% endblock %}
+{% block title %}{{ event.name }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('event_show') }}
+    <style>
+        .event-view header{
+            background-image: url('{{ event.picture }}');
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('event_show') }}
+{% endblock %}
+
+{% block mainClass %}no-padding{% endblock %}
 
 {% block body %}
-    <h1>Evénement</h1>
+    <section class="event-view">
+        <header>
+            <h1>{{ event.name }}</h1>
+        </header>
+
+        <div class="event-view__content">
+            <p>{{ event.description }}</p>
+            <aside>
+                <div>
+                    <i class="fas fa-euro-sign"></i>
+                    {{ event.price }}
+                </div>
+                <div>
+                    <i class="fas fa-calendar"></i>
+                    {{ event.startAt|date('d/m/Y H:i') }}
+                </div>
+                <div>
+                    <i class="fas fa-map-marker"></i>
+                    {{ event.place.label }}
+                </div>
+            </aside>
+        </div>
+    </section>
 {% endblock %}

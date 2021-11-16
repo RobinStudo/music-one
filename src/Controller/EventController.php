@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Event;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,9 +34,11 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="show", requirements={"id"="\d+"})
      */
-    public function show($id): Response
+    public function show(Event $event): Response
     {
-        return $this->render('event/show.html.twig');
+        return $this->render('event/show.html.twig', [
+            'event' => $event,
+        ]);
     }
 
     /**

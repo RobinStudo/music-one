@@ -7,7 +7,7 @@
     display: flex;
     gap: 20px;
     height: 300px;
-    align-items: center;
+    align-items: stretch;
 
     img{
         height: 100%;
@@ -17,9 +17,14 @@
 
     .event-summary{
         flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 20px;
 
         h2{
             font-size: 1.8rem;
+            margin: 0;
         }
 
         aside{

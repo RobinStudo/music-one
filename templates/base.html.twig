@@ -19,7 +19,7 @@
     <body>
         {% include "components/base/header.html.twig" %}
 
-        <main>
+        <main class="{% block mainClass %}{% endblock %}">
             {% block body %}{% endblock %}
         </main>
 

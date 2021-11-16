@@ -16,6 +16,10 @@ main{
     flex: 1;
     background-color: theme-color('secondary');
     padding: 20px;
+
+    &.no-padding{
+        padding: 0;
+    }
 }
 
 h1{
