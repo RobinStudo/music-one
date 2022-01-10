@@ -62,3 +62,14 @@ input[type="checkbox"]{
         content: "\f00c";
     }
 }
+
+.form-errors{
+    list-style-type: none;
+    padding: 0;
+    margin: 5px;
+
+    li{
+        border-left: 3px solid theme-color('error');
+        padding-left: 3px;
+    }
+}
