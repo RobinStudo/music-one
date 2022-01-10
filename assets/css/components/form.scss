@@ -21,3 +21,44 @@ form{
         width: 100%;
     }
 }
+
+input[type="radio"]{
+    display: none;
+
+    & + label:before{
+        content: "";
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        margin-right: 5px;
+        border-radius: 50%;
+        border: 2px solid theme-color('tertiary');
+        cursor: pointer;
+    }
+
+    &:checked + label:before{
+        background-color: theme-color('tertiary');
+    }
+}
+
+input[type="checkbox"]{
+    display: none;
+
+    & + label:before{
+        content: "";
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        margin: 5px 5px 5px 0;
+        border: 2px solid theme-color('tertiary');
+        cursor: pointer;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        padding: 5px;
+        vertical-align: middle;
+    }
+
+    &:checked + label:before{
+        content: "\f00c";
+    }
+}
