@@ -5,6 +5,7 @@ use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
@@ -19,47 +20,72 @@ class Event
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir un nom")
+     * @Assert\Length(
+     *     min=10,
+     *     max=80,
+     *     minMessage="Le nom doit comporter au minimum {{ limit }} caractères",
+     *     maxMessage="Le nom doit comporter au maximum {{ limit }} caractères"
+     * )
      * @ORM\Column(type="string", length=80)
      */
     private $name;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir une description")
+     * @Assert\Length(
+     *     min=10,
+     *     max=2000,
+     *     minMessage="La description doit comporter au minimum {{ limit }} caractères",
+     *     maxMessage="La description doit comporter au maximum {{ limit }} caractères"
+     * )
      * @ORM\Column(type="text")
      */
     private $description;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir une date de début")
+     * @Assert\GreaterThan("+2 days", message="Votre événement ne peut démarrer dans moins de 48H")
      * @ORM\Column(type="datetime_immutable")
      */
     private $startAt;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir une date de fin")
+     * @Assert\GreaterThan(propertyPath="startAt", message="Votre date de fin ne doit pas être antérieur à la date de début")
      * @ORM\Column(type="datetime_immutable")
      */
     private $endAt;
 
     /**
+     * @Assert\Positive(message="Vous devez saisir un nombre positif ou laisser le champ vide pour une capacité ilimitée")
      * @ORM\Column(type="integer", nullable=true)
      */
     private $capacity;
 
     /**
+     * @Assert\Positive(message="Vous devez saisir un nombre positif ou laisser le champ vide pour une entrée gratuite")
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir une URL d'image")
+     * @Assert\Url(message="Votre URL ne semble pas valide")
+     * @Assert\Regex("/.*\.(jpe?g|png)/", message="Votre URL ne semble pas valide")
      * @ORM\Column(type="string", length=255)
      */
     private $picture;
 
     /**
+     * @Assert\NotBlank(message="Vous devez choisir une catégorie")
      * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
 
     /**
+     * @Assert\NotBlank(message="Vous devez choisir un lieu")
      * @ORM\ManyToOne(targetEntity=Place::class, inversedBy="events")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -121,7 +147,7 @@ class Event
         return $this->startAt;
     }
 
-    public function setStartAt(\DateTimeImmutable $startAt): self
+    public function setStartAt(?\DateTimeImmutable $startAt): self
     {
         $this->startAt = $startAt;
 
@@ -133,7 +159,7 @@ class Event
         return $this->endAt;
     }
 
-    public function setEndAt(\DateTimeImmutable $endAt): self
+    public function setEndAt(?\DateTimeImmutable $endAt): self
     {
         $this->endAt = $endAt;
 

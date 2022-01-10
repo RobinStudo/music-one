@@ -2,8 +2,11 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Form\Type\EventType;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -12,10 +15,12 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class EventController extends AbstractController
 {
+    private EntityManagerInterface $em;
     private EventRepository $eventRepository;
 
-    public function __construct(EventRepository $eventRepository)
+    public function __construct(EntityManagerInterface $em, EventRepository $eventRepository)
     {
+        $this->em = $em;
         $this->eventRepository = $eventRepository;
     }
 
@@ -44,8 +49,24 @@ class EventController extends AbstractController
     /**
      * @Route("/new", name="new")
      */
-    public function form(): Response
+    public function form(Request $request): Response
     {
-        return $this->render('event/form.html.twig');
+        $event = new Event();
+        $form = $this->createForm(EventType::class, $event);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($event);
+            $this->em->flush();
+
+            $this->addFlash('notice', 'Votre événement a bien été créé');
+            return $this->redirectToRoute('event_show', [
+                'id' => $event->getId(),
+            ]);
+        }
+
+        return $this->render('event/form.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -1,0 +1,23 @@
+form{
+    .form-row{
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+
+        & > *{
+            flex: 1 1 50%;
+        }
+    }
+
+    input, select, textarea{
+        width: 100%;
+        border: none;
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    label{
+        display: inline-block;
+        width: 100%;
+    }
+}

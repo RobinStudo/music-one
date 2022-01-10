@@ -4,6 +4,10 @@
 @import "components/base/footer";
 @import "components/base/notification";
 
+*{
+    box-sizing: border-box;
+}
+
 body{
     margin: 0;
     font-family: theme-font('content');
