@@ -73,3 +73,15 @@ input[type="checkbox"]{
         padding-left: 3px;
     }
 }
+
+.money-widget{
+    display: flex;
+    align-items: stretch;
+
+    i{
+        background-color: theme-color('tertiary');
+        padding: 5px 20px;
+        display: flex;
+        align-items: center;
+    }
+}
