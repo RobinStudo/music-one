@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Inscription - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('security_register') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('security_register') }}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="form-row">
+        {{ form_row(form.displayName) }}
+        {{ form_row(form.email) }}
+    </div>
+    <div class="form-row">
+        {{ form_row(form.plainPassword) }}
+    </div>
+
+    <button class="button">S'inscrire</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+
+

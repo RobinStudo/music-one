@@ -5,11 +5,15 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email", message="Cette e-mail est déjà rattaché a un compte")
+ * @UniqueEntity("displayName", message="Ce nom d'utilisateur est déjà pris")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -25,6 +29,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre adresse email")
+     * @Assert\Email(message="Cette adresse email ne semble pas valide")
      * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
@@ -40,6 +46,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre mot de passe")
+     * @Assert\Regex("/^(?=.*[A-Za-z])(?=.*\d)/", message="Votre mot de passe doit contenir un chiffre et une lettre")
+     * @Assert\Length(
+     *     min=8,
+     *     max=30,
+     *     minMessage="Votre mot de psse doit contenir au minimum {{ limit }} caractères",
+     *     maxMessage="Votre mot de passe doit contenir au maximum {{ limit }} caractères"
+     * )
+     * @Assert\NotCompromisedPassword(message="Ce mot de passe semble compromis")
+     */
+    private $plainPassword;
+
+    /**
+     * @Assert\NotBlank(message="Vous devez saisir un nom d'utilisateur")
+     * @Assert\Length(
+     *     min=4,
+     *     max=30,
+     *     minMessage="Votre nom d'utilisateur doit contenir au minimum {{ limit }} caractères",
+     *     maxMessage="Votre nom d'utilisateur doit contenir au maximum {{ limit }} caractères"
+     * )
+     * @Assert\Regex("/^[a-zA-Z0-9_]*$/", message="Votre mot de passe doit contenir uniquement des caractères alphanumériques et des underscores")
      * @ORM\Column(type="string", length=30)
      */
     private $displayName;
@@ -62,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=45)
      */
-    private $status;
+    private $status = self::STATUS_ACTIVE;
 
     /**
      * @ORM\OneToMany(targetEntity=Event::class, mappedBy="owner", orphanRemoval=true)
@@ -135,6 +162,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
 
         return $this;
     }
@@ -272,7 +311,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeBooking(Booking $booking): self
     {
         if ($this->bookings->removeElement($booking)) {
-            // set the owning side to null (unless already changed)
             if ($booking->getUser() === $this) {
                 $booking->setUser(null);
             }

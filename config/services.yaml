@@ -18,3 +18,8 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+
+    App\Event\DoctrinePasswordHasher:
+        tags:
+            - name: 'doctrine.event_subscriber'
+              entity: App\Entity\User
