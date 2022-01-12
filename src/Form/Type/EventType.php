@@ -46,10 +46,6 @@ class EventType extends AbstractType
                 'choice_label' => 'label',
                 'label' => 'Lieu'
             ])
-            ->add('owner', null, [
-                'choice_label' => 'email',
-                'label' => 'Propriétaire',
-            ]) // TODO - a retirer après l'authentification
             ->add('tags', null, [
                 'choice_label' => 'name',
                 'label' => 'Mot-clés',

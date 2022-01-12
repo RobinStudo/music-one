@@ -5,6 +5,7 @@ use App\Entity\Event;
 use App\Form\Type\EventType;
 use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,6 +49,7 @@ class EventController extends AbstractController
 
     /**
      * @Route("/new", name="new")
+     * @IsGranted("ROLE_USER")
      */
     public function form(Request $request): Response
     {
@@ -56,6 +58,7 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $event->setOwner($this->getUser());
             $this->em->persist($event);
             $this->em->flush();
 
