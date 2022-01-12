@@ -17,10 +17,6 @@ class EventVoter extends Voter
             return false;
         }
 
-        if(!$subject instanceof Event){
-            return false;
-        }
-
         return true;
     }
 
@@ -39,9 +35,13 @@ class EventVoter extends Voter
         return false;
     }
 
-    private function allowModify(Event $event, UserInterface $user): bool
+    private function allowModify($subject, UserInterface $user): bool
     {
-        if($event->getOwner() === $user){
+        if($subject === null){
+            return true;
+        }
+
+        if($subject->getOwner() === $user){
             return true;
         }
 

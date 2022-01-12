@@ -26,12 +26,20 @@ class DoctrinePasswordHasher implements EventSubscriberInterface
 
     public function prePersist(LifecycleEventArgs $args): void
     {
-        $this->hashPassword($args->getEntity());
+        $this->process($args);
     }
 
     public function preUpdate(LifecycleEventArgs $args): void
     {
-        $this->hashPassword($args->getEntity());
+        $this->process($args);
+    }
+
+    private function process(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if($entity instanceof User){
+            $this->hashPassword($entity);
+        }
     }
 
     private function hashPassword(User $user): void

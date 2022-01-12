@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouvel événement - {{ parent() }}{% endblock %}
+{% block title %}
+    {{ isNew ? 'Nouvel événement' : 'Modifier l\'événement' }}
+    - {{ parent() }}
+{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -13,7 +16,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Nouvel événement</h1>
+    <h1>{{ isNew ? 'Nouvel événement' : 'Modifier l\'événement' }}</h1>
 
     {{ form_start(form) }}
     <div class="form-row">
@@ -39,6 +42,8 @@
         {{ form_row(form.tags) }}
     </div>
 
-    <button class="button">Ajouter</button>
+    <button class="button">
+        {{ isNew ? 'Ajouter' : 'Modifier' }}
+    </button>
     {{ form_end(form) }}
 {% endblock %}
