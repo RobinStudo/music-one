@@ -5,6 +5,8 @@ parameters:
         templateFolder: mail/
         senderAddress: noreply@music-one.com
         supportAddress: support@music-one.com
+    media:
+        repository: "%kernel.project_dir%/public/data"
 
 services:
     _defaults:

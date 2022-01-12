@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,8 +35,11 @@ class EventType extends AbstractType
             ->add('price', MoneyType::class, [
                 'label' => 'Prix',
             ])
-            ->add('picture', UrlType::class, [
+            ->add('pictureUrl', UrlType::class, [
                 'label' => 'URL de l\'image',
+            ])
+            ->add('pictureFile', FileType::class, [
+                'label' => 'Upload de l\'image',
             ])
             ->add('category', null, [
                 'choice_label' => 'name',
