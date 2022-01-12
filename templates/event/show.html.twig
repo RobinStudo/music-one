@@ -42,5 +42,14 @@
                 </div>
             </aside>
         </div>
+
+        {% if is_granted('EVENT_MODIFY', event) %}
+            <div class="event-view__actions">
+                <a href="#" class="button">Modifier</a>
+                <a href="{{ path('event_delete', {
+                    id: event.id
+                }) }}" class="button">Supprimer</a>
+            </div>
+        {% endif %}
     </section>
 {% endblock %}

@@ -72,4 +72,19 @@ class EventController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/{id}/delete", name="delete")
+     * @IsGranted("EVENT_MODIFY", subject="event")
+     */
+    public function delete(Event $event): Response
+    {
+        // TODO - Gérer l'annulation des réservations
+        $this->em->remove($event);
+        $this->em->flush();
+
+        $message = sprintf('Votre événement "%s" a bien été supprimé', $event->getName());
+        $this->addFlash('notice', $message);
+        return $this->redirectToRoute('event_index');
+    }
 }

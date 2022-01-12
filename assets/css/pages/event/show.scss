@@ -1,4 +1,5 @@
 @import "../../base/theme";
+@import "../../components/button";
 
 .event-view{
     header {
@@ -20,5 +21,11 @@
 
     .event-view__content{
         padding: 20px;
+    }
+
+    .event-view__actions{
+        display: flex;
+        justify-content: space-around;
+        margin: 20px;
     }
 }
