@@ -37,9 +37,15 @@ class EventType extends AbstractType
             ])
             ->add('pictureUrl', UrlType::class, [
                 'label' => 'URL de l\'image',
+                'attr' => [
+                    'class' => 'image-preview__listener',
+                ],
             ])
             ->add('pictureFile', FileType::class, [
                 'label' => 'Upload de l\'image',
+                'attr' => [
+                    'class' => 'image-preview__listener hide',
+                ],
             ])
             ->add('category', null, [
                 'choice_label' => 'name',

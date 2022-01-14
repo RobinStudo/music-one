@@ -27,3 +27,8 @@
         <i class="fas fa-euro-sign"></i>
     </div>
 {%- endblock -%}
+
+{% block file_widget %}
+    <label for="{{ form.vars.id }}" class="button">Sélectionner un fichier</label>
+    {{ block('form_widget') }}
+{% endblock %}
