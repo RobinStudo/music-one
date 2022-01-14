@@ -68,7 +68,8 @@ class EventController extends AbstractController
             if($event->getPictureUrl()){
                 $event->setPicture($event->getPictureUrl());
             }else if($event->getPictureFile()){
-                // Upload
+                $filename = $this->mediaService->upload($event->getPictureFile());
+                $event->setPicture($filename);
             }
 
             $event->setOwner($this->getUser());

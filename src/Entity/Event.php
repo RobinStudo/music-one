@@ -332,7 +332,7 @@ class Event
      */
     public function validate(ExecutionContextInterface $context, $payload)
     {
-        if($this->pictureFile || $this->pictureUrl){
+        if($this->pictureFile || $this->pictureUrl || $this->picture){
             return;
         }
 
