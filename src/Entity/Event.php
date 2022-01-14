@@ -76,8 +76,6 @@ class Event
      */
     private $picture;
 
-    private $pictureFile;
-
     /**
      * @return mixed
      */
@@ -114,7 +112,6 @@ class Event
         return $this;
     }
 
-    private $pictureUrl;
     /**
      * @Assert\File(
      *     maxSize="2M",
@@ -252,30 +249,6 @@ class Event
     public function setPicture(string $picture): self
     {
         $this->picture = $picture;
-
-        return $this;
-    }
-
-    public function getPictureFile(): ?File
-    {
-        return $this->pictureFile;
-    }
-
-    public function setPictureFile(?FIle $pictureFile): self
-    {
-        $this->pictureFile = $pictureFile;
-
-        return $this;
-    }
-
-    public function getPictureUrl(): ?string
-    {
-        return $this->pictureUrl;
-    }
-
-    public function setPictureUrl(string $pictureUrl): self
-    {
-        $this->pictureUrl = $pictureUrl;
 
         return $this;
     }

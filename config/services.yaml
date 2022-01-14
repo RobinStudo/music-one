@@ -5,6 +5,9 @@ parameters:
         templateFolder: mail/
         senderAddress: noreply@music-one.com
         supportAddress: support@music-one.com
+    media:
+        repository: "%kernel.project_dir%/public/data"
+        path: data/
 
 services:
     _defaults:
@@ -22,7 +25,3 @@ services:
     App\Event\DoctrinePasswordHasher:
         tags:
             - name: 'doctrine.event_subscriber'
-
-    App\Service\FileUploader:
-        arguments:
-            $targetDirectory: '%pictures_directory%'
