@@ -77,6 +77,45 @@ class Event
      */
     private $picture;
 
+    private $pictureFile;
+
+    /**
+     * @return mixed
+     */
+    public function getPictureFile()
+    {
+        return $this->pictureFile;
+    }
+
+    /**
+     * @param mixed $pictureFile
+     */
+    public function setPictureFile(?File $pictureFile): self
+    {
+        $this->pictureFile = $pictureFile;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPictureUrl()
+    {
+        return $this->pictureUrl;
+    }
+
+    /**
+     * @param mixed $pictureUrl
+     */
+    public function setPictureUrl(string $pictureUrl): self
+    {
+        $this->pictureUrl = $pictureUrl;
+
+        return $this;
+    }
+
+    private $pictureUrl;
     /**
      * @Assert\NotBlank(message="Vous devez choisir une catégorie")
      * @ORM\ManyToOne(targetEntity=Category::class)

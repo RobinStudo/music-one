@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 /**
  * @Route("/event", name="event_")
@@ -52,7 +53,7 @@ class EventController extends AbstractController
      * @Route("/{id}/edit", name="edit")
      * @IsGranted("EVENT_MODIFY", subject="event")
      */
-    public function form(Request $request, Event $event = null): Response
+    public function form(Request $request, Event $event = null, FileUploader $fileUploader): Response
     {
         $isNew = !$event;
         if(!$event){
@@ -63,6 +64,13 @@ class EventController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $event->setOwner($this->getUser());
+
+            $brochureFile = $form->get('picture')->getData();
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $event->setBrochureFilename($brochureFileName);
+            }
+
             $this->em->persist($event);
             $this->em->flush();
 
