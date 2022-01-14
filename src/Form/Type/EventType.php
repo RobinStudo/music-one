@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -34,24 +35,6 @@ class EventType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix',
-            ])
-            ->add('urlPicture', UrlType::class, [
-                'label' => 'URL de l\'image',
-            ])
-            ->add('uploadPicture', null, [
-                'label' => 'Brochure (PDF file)',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2mo',
-                        'mimeTypes' => [
-                            'application/jpe?g',
-                            'application/png',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez upload un document au format png ou jpeg/jpg',
-                    ])
-                ],
             ])
             ->add('category', null, [
                 'choice_label' => 'name',

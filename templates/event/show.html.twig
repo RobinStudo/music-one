@@ -7,7 +7,7 @@
     {{ encore_entry_link_tags('event_show') }}
     <style>
         .event-view header{
-            background-image: url('{{ event.picture }}');
+            background-image: url('{{ event.picture|buildMediaPath }}');
         }
     </style>
 {% endblock %}
@@ -30,7 +30,7 @@
             <aside>
                 <div>
                     <i class="fas fa-euro-sign"></i>
-                    {{ event.price }}
+                    {{ event.price ?? 'Gratuit' }}
                 </div>
                 <div>
                     <i class="fas fa-calendar"></i>

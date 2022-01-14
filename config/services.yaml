@@ -5,7 +5,7 @@ parameters:
         templateFolder: mail/
         senderAddress: noreply@music-one.com
         supportAddress: support@music-one.com
-    pictures_directory: '%kernel.project_dir%/public/build/images'
+
 services:
     _defaults:
         autowire: true

@@ -35,13 +35,17 @@
         {{ form_row(form.place) }}
     </div>
     <div class="form-row">
-        {{ form_row(form.urlPicture) }}
-        {{ form_row(form.uploadPicture) }}
         {{ form_row(form.description) }}
     </div>
     <div class="form-row">
-        {{ form_row(form.tags) }}
+        {{ form_row(form.pictureUrl) }}
+        {{ form_row(form.pictureFile) }}
     </div>
+    {% if form.vars.data.picture %}
+        <div class="picture-preview">
+            <img src="{{ form.vars.data.picture|buildMediaPath }}" alt="Image de l'événement">
+        </div>
+    {% endif %}
 
     <button class="button">
         {{ isNew ? 'Ajouter' : 'Modifier' }}

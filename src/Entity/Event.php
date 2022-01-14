@@ -5,7 +5,9 @@ use App\Repository\EventRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
@@ -70,9 +72,6 @@ class Event
     private $price;
 
     /**
-     * @Assert\NotBlank(message="Vous devez saisir une URL d'image")
-     * @Assert\Url(message="Votre URL ne semble pas valide")
-     * @Assert\Regex("/.*\.(jpe?g|png)/", message="Votre URL ne semble pas valide")
      * @ORM\Column(type="string", length=255)
      */
     private $picture;
@@ -116,6 +115,22 @@ class Event
     }
 
     private $pictureUrl;
+    /**
+     * @Assert\File(
+     *     maxSize="2M",
+     *     mimeTypes={"image/png", "image/jpeg"},
+     *     mimeTypesMessage="Seul les images au format PNG et JPEG sont autorisées",
+     *     maxSizeMessage="Seul les images de moins de 2Mo sont autorisées"
+     * )
+     */
+    private $pictureFile;
+
+    /**
+     * @Assert\Url(message="Votre URL ne semble pas valide")
+     * @Assert\Regex("/.*\.(jpe?g|png)/", message="Votre URL ne semble pas valide")
+     */
+    private $pictureUrl;
+
     /**
      * @Assert\NotBlank(message="Vous devez choisir une catégorie")
      * @ORM\ManyToOne(targetEntity=Category::class)
@@ -241,6 +256,30 @@ class Event
         return $this;
     }
 
+    public function getPictureFile(): ?File
+    {
+        return $this->pictureFile;
+    }
+
+    public function setPictureFile(?FIle $pictureFile): self
+    {
+        $this->pictureFile = $pictureFile;
+
+        return $this;
+    }
+
+    public function getPictureUrl(): ?string
+    {
+        return $this->pictureUrl;
+    }
+
+    public function setPictureUrl(string $pictureUrl): self
+    {
+        $this->pictureUrl = $pictureUrl;
+
+        return $this;
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;
@@ -319,12 +358,25 @@ class Event
     public function removeParticipant(Booking $participant): self
     {
         if ($this->participants->removeElement($participant)) {
-            // set the owning side to null (unless already changed)
             if ($participant->getEvent() === $this) {
                 $participant->setEvent(null);
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context, $payload)
+    {
+        if($this->pictureFile || $this->pictureUrl || $this->picture){
+            return;
+        }
+
+        $context->buildViolation('Vous devez uploader une image ou renseigner une URL')
+            ->atPath('pictureUrl')
+            ->addViolation();
     }
 }

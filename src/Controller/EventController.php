@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\Type\EventType;
 use App\Repository\EventRepository;
+use App\Service\MediaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,11 +20,13 @@ class EventController extends AbstractController
 {
     private EntityManagerInterface $em;
     private EventRepository $eventRepository;
+    private MediaService $mediaService;
 
-    public function __construct(EntityManagerInterface $em, EventRepository $eventRepository)
+    public function __construct(EntityManagerInterface $em, EventRepository $eventRepository, MediaService $mediaService)
     {
         $this->em = $em;
         $this->eventRepository = $eventRepository;
+        $this->mediaService = $mediaService;
     }
 
     /**
@@ -63,6 +66,13 @@ class EventController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            if($event->getPictureUrl()){
+                $event->setPicture($event->getPictureUrl());
+            }else if($event->getPictureFile()){
+                $filename = $this->mediaService->upload($event->getPictureFile());
+                $event->setPicture($filename);
+            }
+
             $event->setOwner($this->getUser());
 
             $brochureFile = $form->get('picture')->getData();

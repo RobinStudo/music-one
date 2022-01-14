@@ -24,7 +24,7 @@
     {% for event in events %}
         <article class="event">
             <a href="{{ path('event_show', {id: event.id}) }}">
-                <img src="{{ event.picture }}" alt="{{ event.name }}">
+                <img src="{{ event.picture|buildMediaPath }}" alt="{{ event.name }}">
                 <div class="event-summary">
                     <h2>{{ event.name }}</h2>
                     <p>
@@ -33,7 +33,7 @@
                     <aside>
                         <div>
                             <i class="fas fa-euro-sign"></i>
-                            {{ event.price }}
+                            {{ event.price ?? 'Gratuit' }}
                         </div>
                         <div>
                             <i class="fas fa-calendar"></i>
