@@ -1,15 +1,18 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\BookingRepository;
+use App\Util\Doctrine\TimerTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
+    use TimerTrait;
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bookings")
