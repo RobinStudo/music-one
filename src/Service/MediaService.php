@@ -16,8 +16,17 @@ class MediaService
     public function upload(File $file): string
     {
         $generatedName = $this->generateName($file->guessExtension());
-        $file->move($this->config['repository'], $generatedName);
+        $file->move($this->getRepository(), $generatedName);
         return $generatedName;
+    }
+
+    public function getRepository($absolute = true): string
+    {
+        if($absolute){
+            return $this->config['repository'];
+        }
+
+        return 'public/data';
     }
 
     private function generateName($extension): string

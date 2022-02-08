@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 
+use App\Entity\Event;
 use App\Entity\Place;
 use App\Entity\Tag;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -28,7 +29,10 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        
+
+        yield MenuItem::section('Evénement');
+        yield MenuItem::linkToCrud('Evénements', 'fas fa-handshake', Event::class);
+
         yield MenuItem::section('Nomenclature');
         yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
         yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class);
