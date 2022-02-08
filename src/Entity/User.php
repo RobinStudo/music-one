@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Util\Doctrine\TimerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,11 +13,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity("email", message="Cette e-mail est déjà rattaché a un compte")
  * @UniqueEntity("displayName", message="Ce nom d'utilisateur est déjà pris")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimerTrait;
+
     const STATUS_ACTIVE = 'active';
     const STATUS_BANNED = 'banned';
     const STATUS_PENDING = 'pending';

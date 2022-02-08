@@ -2,15 +2,19 @@
 namespace App\Entity;
 
 use App\Repository\PlaceRepository;
+use App\Util\Doctrine\TimerTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=PlaceRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Place
 {
+    use TimerTrait;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
