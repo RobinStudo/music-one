@@ -8,6 +8,9 @@ parameters:
     media:
         repository: "%kernel.project_dir%/public/data"
         path: data/
+    location:
+        url: https://api.mapbox.com/geocoding/v5/
+        token: "%env(MAPBOX_TOKEN)%"
 
 services:
     _defaults:

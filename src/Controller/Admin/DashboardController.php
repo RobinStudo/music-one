@@ -2,7 +2,6 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Category;
 use App\Entity\Event;
 use App\Entity\Place;
 use App\Entity\Tag;
@@ -25,15 +24,18 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Music One');
+            ->setTitle('MusicOne');
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+
+        yield MenuItem::section('Évènement');
+        yield MenuItem::linkToCrud('Event', 'fas fa-calendar', Event::class);
+
+        yield MenuItem::section('Nomenclature');
+        yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
         yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class);
-        yield MenuItem::linkToCrud('Category', 'fas fa-bars', Category::class);
-        yield MenuItem::linkToCrud('Place', 'fas fa-location-arrow', Place::class);
-        yield MenuItem::linkToCrud('Event', 'fas fa-calendar-week', Event::class);
     }
 }
