@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as CustomAssert;
 
 /**
  * @ORM\Entity(repositoryClass=AddressRepository::class)
+ * @CustomAssert\Address()
  */
 class Address
 {
@@ -88,5 +90,10 @@ class Address
         $this->country = $country;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s - %s %s', $this->getStreet(), $this->getZipcode(), $this->getCity());
     }
 }
