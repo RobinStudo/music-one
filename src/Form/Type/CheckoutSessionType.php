@@ -15,6 +15,9 @@ class CheckoutSessionType extends AbstractType
         $builder
             ->add('quantity', IntegerType::class, [
                 'label' => 'Nombre de place',
+                'attr' => [
+                    'class' => 'quantity-input',
+                ]
             ])
         ;
     }

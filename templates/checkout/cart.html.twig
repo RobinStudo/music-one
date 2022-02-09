@@ -23,8 +23,8 @@
     </div>
 
     <p>
-        Prix par place : {{ session.event.price }}€<br>
-        Prix total : {{ session.event.price * form.quantity.vars.value }}€
+        Prix par place : <span id="uniquePrice">{{ session.event.price }}</span>€<br>
+        Prix total : <span id="totalPrice">{{ session.event.price * form.quantity.vars.value }}</span>€
     </p>
 
     <button class="button">Commander</button>

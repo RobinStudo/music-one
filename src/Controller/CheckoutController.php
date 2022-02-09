@@ -30,6 +30,7 @@ class CheckoutController extends AbstractController
 
     // TODO - Gérer l'utilisateur non connecté
     // TODO - Gérer la disponiblité de l'événement
+    // TODO - Améliorer la selection du nombre de place 
 
     /**
      * @Route("", name="main")
