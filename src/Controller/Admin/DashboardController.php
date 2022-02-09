@@ -31,8 +31,8 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
 
-        yield MenuItem::section('Évènement');
-        yield MenuItem::linkToCrud('Event', 'fas fa-calendar', Event::class);
+        yield MenuItem::section('Evénement');
+        yield MenuItem::linkToCrud('Evénements', 'fas fa-handshake', Event::class);
 
         yield MenuItem::section('Nomenclature');
         yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
