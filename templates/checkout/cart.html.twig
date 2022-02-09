@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Votre commande - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checkout_cart') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('checkout_cart') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Votre réservation pour {{ session.event.name }}</h1>
+
+    {{ form_start(form) }}
+    <div class="form-row">
+        {{ form_row(form.quantity) }}
+    </div>
+
+    <p>
+        Prix par place : {{ session.event.price }}€<br>
+        Prix total : {{ session.event.price * form.quantity.vars.value }}€
+    </p>
+
+    <button class="button">Commander</button>
+    {{ form_end(form) }}
+{% endblock %}
