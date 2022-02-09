@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Validator as CustomAssert;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AddressRepository::class)
@@ -20,16 +21,19 @@ class Address
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir l'adresse")
      * @ORM\Column(type="string", length=120, nullable=true)
      */
     private $street;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir le code postal")
      * @ORM\Column(type="string", length=10)
      */
     private $zipcode;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir la ville")
      * @ORM\Column(type="string", length=50)
      */
     private $city;

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Votre commande - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checkout_account') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('checkout_account') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Votre réservation pour {{ session.event.name }}</h1>
+    <h2>Vos informations de facturation</h2>
+
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="form-row">
+        {{ form_row(form.email) }}
+    </div>
+    <div class="form-row">
+        {{ form_row(form.firstname) }}
+        {{ form_row(form.lastname) }}
+    </div>
+    <div class="form-row">
+        {{ form_row(form.address.street) }}
+        {{ form_row(form.address.zipcode) }}
+    </div>
+    <div class="form-row">
+        {{ form_row(form.address.city) }}
+        {{ form_row(form.address.country) }}
+    </div>
+
+    <button class="button">Commander</button>
+    {{ form_end(form) }}
+{% endblock %}
