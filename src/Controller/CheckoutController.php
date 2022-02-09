@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 
 use App\Form\Type\CheckoutSessionType;
+use App\Form\Type\UserType;
 use App\Model\CheckoutSession;
 use App\Service\CheckoutService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class CheckoutController extends AbstractController
 
     // TODO - Gérer l'utilisateur non connecté
     // TODO - Gérer la disponiblité de l'événement
-    // TODO - Améliorer la selection du nombre de place 
+    // TODO - Améliorer la selection du nombre de place
 
     /**
      * @Route("", name="main")
@@ -71,13 +72,14 @@ class CheckoutController extends AbstractController
         return $this->redirectToRoute('main_index');
     }
 
-    public function cart($request, $session): Response
+    public function cart(Request $request, CheckoutSession $session): Response
     {
         $form = $this->createForm(CheckoutSessionType::class, $session);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-
+            $session->setStatus(CheckoutSession::STATUS_ACCOUNT);
+            return $this->redirectToRoute('checkout_main');
         }
 
         return $this->render('checkout/cart.html.twig', [
@@ -86,17 +88,33 @@ class CheckoutController extends AbstractController
         ]);
     }
 
-    public function account($request, $session): Response
+    public function account(Request $request, CheckoutSession $session): Response
     {
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user, [
+            'mode' => UserType::MODE_CHECKOUT,
+        ]);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->flush();
+            $session->setStatus(CheckoutSession::STATUS_PAYMENT);
+            return $this->redirectToRoute('checkout_main');
+        }
+
+        return $this->render('checkout/account.html.twig', [
+            'form' => $form->createView(),
+            'session' => $session
+        ]);
 
     }
 
-    public function payment($request, $session): Response
+    public function payment(Request $request, CheckoutSession $session): Response
     {
-
+        dd('payment');
     }
 
-    public function finish($request, $session): Response
+    public function finish(Request $request, CheckoutSession $session): Response
     {
 
     }

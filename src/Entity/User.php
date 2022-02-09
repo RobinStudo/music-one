@@ -50,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @Assert\NotBlank(message="Vous devez saisir votre mot de passe")
+     * @Assert\NotBlank(message="Vous devez saisir votre mot de passe", groups="register")
      * @Assert\Regex("/^(?=.*[A-Za-z])(?=.*\d)/", message="Votre mot de passe doit contenir un chiffre et une lettre")
      * @Assert\Length(
      *     min=8,
@@ -76,11 +76,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $displayName;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre prénom", groups="checkout")
+     * @Assert\Length(
+     *     min=2,
+     *     max=45,
+     *     minMessage="Votre prénom est trop court",
+     *     maxMessage="Votre prénom est trop long"
+     * )
      * @ORM\Column(type="string", length=45, nullable=true)
      */
     private $firstname;
 
     /**
+     * @Assert\NotBlank(message="Vous devez saisir votre nom", groups="checkout")
+     * @Assert\Length(
+     *     min=2,
+     *     max=45,
+     *     minMessage="Votre nom est trop court",
+     *     maxMessage="Votre nom est trop long"
+     * )
      * @ORM\Column(type="string", length=45, nullable=true)
      */
     private $lastname;
@@ -101,6 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $ownedEvents;
 
     /**
+     * @Assert\Valid()
      * @ORM\OneToOne(targetEntity=Address::class, cascade={"persist", "remove"})
      */
     private $address;

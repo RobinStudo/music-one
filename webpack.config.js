@@ -17,6 +17,10 @@ Encore
     .addEntry('security_register', '/assets/js/pages/security/register.js')
 
     .addEntry('checkout_cart', '/assets/js/pages/checkout/cart.js')
+    .addEntry('checkout_account', '/assets/js/pages/checkout/account.js')
+    .addEntry('checkout_payment', '/assets/js/pages/checkout/payment.js')
+    .addEntry('checkout_finish', '/assets/js/pages/checkout/finish.js')
+
 
     .splitEntryChunks()
     .enableSingleRuntimeChunk()
