@@ -44,11 +44,15 @@
         </div>
 
         <div class="event-view__actions">
-            <a href="{{ path('checkout_main', {
-                event: event.id
-            }) }}" class="button">
-                Réserver
-            </a>
+            {% if is_granted('BOOKING_CHECKOUT') %}
+                <a href="{{ path('checkout_main', {
+                    event: event.id
+                }) }}" class="button">
+                    Réserver
+                </a>
+            {% else %}
+                <span>Déjà réservé</span>
+            {% endif %}
 
             {% if is_granted('EVENT_MODIFY', event) %}
                 <a href="{{ path('event_edit', {

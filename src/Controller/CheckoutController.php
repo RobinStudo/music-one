@@ -16,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/checkout", name="checkout_")
- * @IsGranted("ROLE_USER")
+ * @IsGranted("BOOKING_CHECKOUT")
  */
 class CheckoutController extends AbstractController
 {
@@ -30,12 +30,10 @@ class CheckoutController extends AbstractController
         $this->eventRepository = $this->em->getRepository(Event::class);
         $this->checkoutService = $checkoutService;
     }
-
-
+    
     // TODO - Gérer les réservations gratuites
     // TODO - Gérer la disponiblité de l'événement
     // TODO - Améliorer la selection du nombre de place
-    // TODO - L'utilisateur à déjà une réservation
 
     /**
      * @Route("", name="main")
