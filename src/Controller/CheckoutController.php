@@ -38,7 +38,7 @@ class CheckoutController extends AbstractController
 
     /**
      * @Route("", name="main")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
      */
     public function main(Request $request): Response
     {
