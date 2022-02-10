@@ -6,6 +6,7 @@ use App\Entity\Event;
 use App\Form\Type\CheckoutSessionType;
 use App\Form\Type\UserType;
 use App\Model\CheckoutSession;
+use App\Repository\BookingRepository;
 use App\Service\CheckoutService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,12 +22,14 @@ class CheckoutController extends AbstractController
     private EntityManagerInterface $em;
     private $eventRepository;
     private CheckoutService $checkoutService;
+    private BookingRepository $bookingRepository;
 
-    public function __construct(EntityManagerInterface $em, CheckoutService $checkoutService)
+    public function __construct(EntityManagerInterface $em, CheckoutService $checkoutService, BookingRepository $bookingRepository)
     {
         $this->em = $em;
         $this->eventRepository = $this->em->getRepository(Event::class);
         $this->checkoutService = $checkoutService;
+        $this->bookingRepository = $bookingRepository;
     }
 
     // TODO - Gérer l'utilisateur non connecté
@@ -40,16 +43,16 @@ class CheckoutController extends AbstractController
      */
     public function main(Request $request): Response
     {
-        if($request->query->has('event')){
+        if ($request->query->has('event')) {
             $event = $this->eventRepository->find($request->query->get('event'));
-            if($event){
+            if ($event) {
                 $this->checkoutService->initSession($event);
                 return $this->redirectToRoute('checkout_main');
             }
         }
 
-        if($session = $this->checkoutService->retrieveSession()){
-            switch($session->getStatus()){
+        if ($session = $this->checkoutService->retrieveSession()) {
+            switch ($session->getStatus()) {
                 case CheckoutSession::STATUS_ACCOUNT:
                     $method = 'account';
                     break;
@@ -75,13 +78,19 @@ class CheckoutController extends AbstractController
 
     public function cart(Request $request, CheckoutSession $session): Response
     {
+        if ($this->bookingRepository->findOneBy(['user' => $this->getUser(), 'event' => $session->getEvent()]) != null) {
+            $this->addFlash('error', 'Vous avez déjà fais une réservation pour cet event');
+            return $this->render('checkout/already.html.twig');
+        }
+
         $form = $this->createForm(CheckoutSessionType::class, $session);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $session->setStatus(CheckoutSession::STATUS_ACCOUNT);
             return $this->redirectToRoute('checkout_main');
         }
+
 
         return $this->render('checkout/cart.html.twig', [
             'form' => $form->createView(),
@@ -97,7 +106,7 @@ class CheckoutController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
             $session->setStatus(CheckoutSession::STATUS_PAYMENT);
             return $this->redirectToRoute('checkout_main');
@@ -111,8 +120,9 @@ class CheckoutController extends AbstractController
 
     public function payment(Request $request, CheckoutSession $session): Response
     {
-        if($paymentId = $request->query->get('payment_intent')){
-            if($booking = $this->checkoutService->finalize($session, $paymentId)){
+        if ($paymentId = $request->query->get('payment_intent')) {
+
+            if ($booking = $this->checkoutService->finalize($session, $paymentId)) {
                 $this->em->persist($booking);
                 $this->em->flush();
                 $session->setStatus(CheckoutSession::STATUS_FINISH);
