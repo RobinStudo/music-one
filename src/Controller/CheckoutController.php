@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/checkout", name="checkout_")
@@ -37,6 +38,7 @@ class CheckoutController extends AbstractController
 
     /**
      * @Route("", name="main")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function main(Request $request): Response
     {
