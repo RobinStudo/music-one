@@ -31,11 +31,12 @@ class CheckoutController extends AbstractController
         $this->checkoutService = $checkoutService;
     }
 
-    // TODO - Gérer l'utilisateur non connecté
+    // TODO - Usage multiple du paiement
+
+
     // TODO - Gérer la disponiblité de l'événement
     // TODO - Améliorer la selection du nombre de place
-    // TODO - Usage multiple du paiement
-    // TDOD - L'utilisateur à déjà une réservation
+    // TODO - L'utilisateur à déjà une réservation
 
     /**
      * @Route("", name="main")
