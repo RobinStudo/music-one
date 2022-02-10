@@ -25,6 +25,7 @@ security:
 
     access_control:
          - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/checkout, roles: ROLE_USER }
 
 when@test:
     security:
