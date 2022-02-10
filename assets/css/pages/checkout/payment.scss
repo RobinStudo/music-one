@@ -2,3 +2,12 @@
 
 @import "../../components/form";
 @import "../../components/button";
+
+#paymentForm{
+    max-width: 800px;
+    margin: 0 auto;
+
+    .payment-widget{
+        margin-bottom: 20px;
+    }
+}

@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Votre commande - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checkout_finish') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('checkout_finish') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Votre réservation pour {{ session.event.name }}</h1>
+    <h2>Réservation confirmée</h2>
+    <p>Votre réservation est confirmée et votre commande validée</p>
+{% endblock %}

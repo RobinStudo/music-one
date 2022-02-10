@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use Exception;
 use Stripe\StripeClient;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -23,6 +24,21 @@ class PaymentService
         ]);
 
         return $intent->client_secret;
+    }
+
+    public function validateIntent($intentId): bool
+    {
+        try{
+            $intent = $this->client->paymentIntents->retrieve($intentId);
+
+            if($intent->status === 'succeeded'){
+                return true;
+            }
+
+            return false;
+        }catch(Exception $e){
+            return false;
+        }
     }
 
     private function convertPrice(float $price): int

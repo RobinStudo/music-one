@@ -32,6 +32,8 @@ class CheckoutController extends AbstractController
     // TODO - Gérer l'utilisateur non connecté
     // TODO - Gérer la disponiblité de l'événement
     // TODO - Améliorer la selection du nombre de place
+    // TODO - Usage multiple du paiement
+    // TDOD - L'utilisateur à déjà une réservation
 
     /**
      * @Route("", name="main")
@@ -109,6 +111,15 @@ class CheckoutController extends AbstractController
 
     public function payment(Request $request, CheckoutSession $session): Response
     {
+        if($paymentId = $request->query->get('payment_intent')){
+            if($booking = $this->checkoutService->finalize($session, $paymentId)){
+                $this->em->persist($booking);
+                $this->em->flush();
+                $session->setStatus(CheckoutSession::STATUS_FINISH);
+                return $this->redirectToRoute('checkout_main');
+            }
+        }
+
         $payment = $this->checkoutService->preparePayment($session);
 
         return $this->render('checkout/payment.html.twig', [
@@ -119,6 +130,8 @@ class CheckoutController extends AbstractController
 
     public function finish(Request $request, CheckoutSession $session): Response
     {
-
+        return $this->render('checkout/finish.html.twig', [
+            'session' => $session
+        ]);
     }
 }
