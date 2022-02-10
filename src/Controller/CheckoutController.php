@@ -41,13 +41,13 @@ class CheckoutController extends AbstractController
      */
     public function main(Request $request): Response
     {
-        if($request->query->has('event')){
-            $event = $this->eventRepository->find($request->query->get('event'));
-            if($event){
-                $this->checkoutService->initSession($event);
-                return $this->redirectToRoute('checkout_main');
+            if ($request->query->has('event')) {
+                $event = $this->eventRepository->find($request->query->get('event'));
+                if ($event) {
+                    $this->checkoutService->initSession($event);
+                    return $this->redirectToRoute('checkout_main');
+                }
             }
-        }
 
         if($session = $this->checkoutService->retrieveSession()){
             switch($session->getStatus()){
@@ -74,20 +74,25 @@ class CheckoutController extends AbstractController
         return $this->redirectToRoute('main_index');
     }
 
+
     public function cart(Request $request, CheckoutSession $session): Response
     {
-        $form = $this->createForm(CheckoutSessionType::class, $session);
-        $form->handleRequest($request);
+        if ($this->isGranted('ROLE_USER') == false) {
+            return $this->redirectToRoute('security_login');
+        } else {
+            $form = $this->createForm(CheckoutSessionType::class, $session);
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            $session->setStatus(CheckoutSession::STATUS_ACCOUNT);
-            return $this->redirectToRoute('checkout_main');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $session->setStatus(CheckoutSession::STATUS_ACCOUNT);
+                return $this->redirectToRoute('checkout_main');
+            }
+
+            return $this->render('checkout/cart.html.twig', [
+                'form' => $form->createView(),
+                'session' => $session
+            ]);
         }
-
-        return $this->render('checkout/cart.html.twig', [
-            'form' => $form->createView(),
-            'session' => $session
-        ]);
     }
 
     public function account(Request $request, CheckoutSession $session): Response
