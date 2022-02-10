@@ -31,9 +31,8 @@ class CheckoutController extends AbstractController
         $this->checkoutService = $checkoutService;
     }
 
-    // TODO - Usage multiple du paiement
 
-
+    // TODO - Gérer les réservations gratuites
     // TODO - Gérer la disponiblité de l'événement
     // TODO - Améliorer la selection du nombre de place
     // TODO - L'utilisateur à déjà une réservation

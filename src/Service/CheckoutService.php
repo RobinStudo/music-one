@@ -4,8 +4,8 @@ namespace App\Service;
 use App\Entity\Booking;
 use App\Entity\Event;
 use App\Model\CheckoutSession;
+use App\Repository\BookingRepository;
 use App\Repository\EventRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Security;
@@ -16,17 +16,20 @@ class CheckoutService
     private RequestStack $requestStack;
     private PaymentService $paymentService;
     private Security $security;
+    private BookingRepository $bookingRepository;
     private EventRepository $eventRepository;
 
     public function __construct(
         RequestStack $requestStack,
         Security $security,
+        BookingRepository $bookingRepository,
         EventRepository $eventRepository,
         PaymentService $paymentService
     ){
         $this->requestStack = $requestStack;
         $this->paymentService = $paymentService;
         $this->security = $security;
+        $this->bookingRepository = $bookingRepository;
         $this->eventRepository = $eventRepository;
     }
 
@@ -49,7 +52,7 @@ class CheckoutService
 
     public function preparePayment(CheckoutSession $session): array
     {
-        $totalPrice = $session->getQuantity() * $session->getEvent()->getPrice();
+        $totalPrice = $this->calculatePrice($session);
         $key = $this->paymentService->createIntent($totalPrice);
 
         return [
@@ -59,7 +62,7 @@ class CheckoutService
 
     public function finalize(CheckoutSession $session, string $paymentId): ?Booking
     {
-        if(!$this->paymentService->validateIntent($paymentId)){
+        if(!$this->checkPayment($session, $paymentId)){
             return null;
         }
 
@@ -68,8 +71,28 @@ class CheckoutService
         $event = $this->eventRepository->find($session->getEvent()->getId());
         $booking->setEvent($event);
         $booking->setUser($this->security->getUser());
+        $booking->setPaymentIdentifier($paymentId);
 
         return $booking;
+    }
+
+    private function checkPayment(CheckoutSession $session, string $paymentId): bool
+    {
+        $totalPrice = $this->calculatePrice($session);
+        if(!$this->paymentService->validateIntent($paymentId, $totalPrice)){
+            return false;
+        }
+
+        if($this->bookingRepository->count(['paymentIdentifier' => $paymentId]) > 0){
+            return false;
+        }
+
+        return true;
+    }
+
+    private function calculatePrice(CheckoutSession $session)
+    {
+        return $session->getQuantity() * $session->getEvent()->getPrice();
     }
 
     private function session(): SessionInterface

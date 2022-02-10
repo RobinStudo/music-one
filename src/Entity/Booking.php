@@ -38,6 +38,11 @@ class Booking
      */
     private $seat;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentIdentifier;
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -82,6 +87,18 @@ class Booking
     public function setSeat(int $seat): self
     {
         $this->seat = $seat;
+
+        return $this;
+    }
+
+    public function getPaymentIdentifier(): ?string
+    {
+        return $this->paymentIdentifier;
+    }
+
+    public function setPaymentIdentifier(?string $paymentIdentifier): self
+    {
+        $this->paymentIdentifier = $paymentIdentifier;
 
         return $this;
     }

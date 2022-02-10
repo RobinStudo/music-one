@@ -26,16 +26,20 @@ class PaymentService
         return $intent->client_secret;
     }
 
-    public function validateIntent($intentId): bool
+    public function validateIntent($intentId, $total): bool
     {
         try{
             $intent = $this->client->paymentIntents->retrieve($intentId);
 
-            if($intent->status === 'succeeded'){
-                return true;
+            if($intent->status !== 'succeeded'){
+                return false;
             }
 
-            return false;
+            if($intent->amount !== $this->convertPrice($total)){
+                return false;
+            }
+
+            return true;
         }catch(Exception $e){
             return false;
         }
