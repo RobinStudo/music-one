@@ -4,6 +4,7 @@ namespace App\Entity;
 use App\Repository\BookingRepository;
 use App\Util\Doctrine\TimerTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=BookingRepository::class)
@@ -83,5 +84,13 @@ class Booking
         $this->seat = $seat;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function generateSerial(): void
+    {
+        $this->serial = Uuid::v4();
     }
 }

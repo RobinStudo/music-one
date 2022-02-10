@@ -1,21 +1,33 @@
 <?php
 namespace App\Service;
 
+use App\Entity\Booking;
 use App\Entity\Event;
 use App\Model\CheckoutSession;
+use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Security\Core\Security;
 
 class CheckoutService
 {
     const SESSION_KEY = 'CHECKOUT_SESSION';
     private RequestStack $requestStack;
     private PaymentService $paymentService;
+    private Security $security;
+    private EventRepository $eventRepository;
 
-    public function __construct(RequestStack $requestStack, PaymentService $paymentService)
-    {
+    public function __construct(
+        RequestStack $requestStack,
+        Security $security,
+        EventRepository $eventRepository,
+        PaymentService $paymentService
+    ){
         $this->requestStack = $requestStack;
         $this->paymentService = $paymentService;
+        $this->security = $security;
+        $this->eventRepository = $eventRepository;
     }
 
     public function initSession(Event $event): CheckoutSession
@@ -43,6 +55,21 @@ class CheckoutService
         return [
             'key' => $key,
         ];
+    }
+
+    public function finalize(CheckoutSession $session, string $paymentId): ?Booking
+    {
+        if(!$this->paymentService->validateIntent($paymentId)){
+            return null;
+        }
+
+        $booking = new Booking();
+        $booking->setSeat($session->getQuantity());
+        $event = $this->eventRepository->find($session->getEvent()->getId());
+        $booking->setEvent($event);
+        $booking->setUser($this->security->getUser());
+
+        return $booking;
     }
 
     private function session(): SessionInterface
