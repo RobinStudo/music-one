@@ -16,6 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 /**
  * @Route("/checkout", name="checkout_")
+ * @IsGranted("ROLE_USER")
  */
 class CheckoutController extends AbstractController
 {
@@ -38,7 +39,6 @@ class CheckoutController extends AbstractController
 
     /**
      * @Route("", name="main")
-     * @IsGranted("ROLE_USER")
      */
     public function main(Request $request): Response
     {
