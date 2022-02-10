@@ -2307,6 +2307,10 @@
                 "payment processing",
                 "stripe"
             ],
+            "support": {
+                "issues": "https://github.com/stripe/stripe-php/issues",
+                "source": "https://github.com/stripe/stripe-php/tree/v7.113.0"
+            },
             "time": "2022-02-03T23:46:29+00:00"
         },
         {

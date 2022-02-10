@@ -16,16 +16,17 @@ class PaymentService
         $this->client = new StripeClient($this->config['privateKey']);
     }
 
-    public function createIntent(float $price){
+    public function createIntent(float $price): string
+    {
         $intent = $this->client->paymentIntents->create([
-                'amount' => $this->convertPrice($price),
-                'currency' => $this->config['currency'],
-            ]);
+            'amount' => $this->convertPrice($price),
+            'currency' => $this->config['currency'],
+        ]);
 
-        dd($intent);
+        return $intent->client_secret;
     }
 
-    public function convertPrice(float $price)
+    private function convertPrice(float $price): int
     {
         return round($price * 100);
     }

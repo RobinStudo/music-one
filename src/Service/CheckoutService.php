@@ -35,10 +35,14 @@ class CheckoutService
         $this->session()->set(self::SESSION_KEY, $session);
     }
 
-    private function preparePayment(CheckoutSession $session)
+    public function preparePayment(CheckoutSession $session): array
     {
         $totalPrice = $session->getQuantity() * $session->getEvent()->getPrice();
-        $this->paymentService->createIntent($totalPrice);
+        $key = $this->paymentService->createIntent($totalPrice);
+
+        return [
+            'key' => $key,
+        ];
     }
 
     private function session(): SessionInterface

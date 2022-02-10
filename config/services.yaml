@@ -14,7 +14,7 @@ parameters:
     payment:
         publicKey: "%env(STRIPE_PUBLIC_KEY)%"
         privateKey: "%env(STRIPE_PRIVATE_KEY)%"
-        currency : "eur"
+        currency: eur
 
 services:
     _defaults:
