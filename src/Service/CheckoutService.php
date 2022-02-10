@@ -10,10 +10,12 @@ class CheckoutService
 {
     const SESSION_KEY = 'CHECKOUT_SESSION';
     private RequestStack $requestStack;
+    private PaymentService $paymentService;
 
-    public function __construct(RequestStack $requestStack)
+    public function __construct(RequestStack $requestStack, PaymentService $paymentService)
     {
         $this->requestStack = $requestStack;
+        $this->paymentService = $paymentService;
     }
 
     public function initSession(Event $event): CheckoutSession
@@ -33,8 +35,16 @@ class CheckoutService
         $this->session()->set(self::SESSION_KEY, $session);
     }
 
+    private function preparePayment(CheckoutSession $session)
+    {
+        $totalPrice = $session->getQuantity() * $session->getEvent()->getPrice();
+        $this->paymentService->createIntent($totalPrice);
+    }
+
     private function session(): SessionInterface
     {
         return $this->requestStack->getSession();
     }
+
+
 }

@@ -112,6 +112,7 @@ class CheckoutController extends AbstractController
     public function payment(Request $request, CheckoutSession $session): Response
     {
         dd('payment');
+        $this->checkoutService($intent);
     }
 
     public function finish(Request $request, CheckoutSession $session): Response
