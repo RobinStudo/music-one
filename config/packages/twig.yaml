@@ -2,6 +2,9 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_theme:
         - components/form.html.twig
+    globals:
+        configuration:
+            payment: "%payment%"
 
 when@test:
     twig:

@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Votre commande - {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('checkout_payment') }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+    {{ parent() }}
+    {{ encore_entry_script_tags('checkout_payment') }}
+{% endblock %}
+
+{% block body %}
+    <h1>Votre réservation pour {{ session.event.name }}</h1>
+    <h2>Paiement</h2>
+
+    <form id="paymentForm"
+          data-client-key="{{ configuration.payment.publicKey }}"
+          data-payment-key="{{ payment.key }}">
+        <div class="payment-widget"></div>
+        <button class="button">Payer</button>
+    </form>
+{% endblock %}

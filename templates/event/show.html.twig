@@ -43,15 +43,21 @@
             </aside>
         </div>
 
-        {% if is_granted('EVENT_MODIFY', event) %}
-            <div class="event-view__actions">
+        <div class="event-view__actions">
+            <a href="{{ path('checkout_main', {
+                event: event.id
+            }) }}" class="button">
+                Réserver
+            </a>
+
+            {% if is_granted('EVENT_MODIFY', event) %}
                 <a href="{{ path('event_edit', {
                     id: event.id
                 }) }}" class="button">Modifier</a>
                 <a href="{{ path('event_delete', {
                     id: event.id
                 }) }}" class="button">Supprimer</a>
-            </div>
-        {% endif %}
+            {% endif %}
+        </div>
     </section>
 {% endblock %}

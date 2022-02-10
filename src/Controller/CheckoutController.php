@@ -105,12 +105,16 @@ class CheckoutController extends AbstractController
             'form' => $form->createView(),
             'session' => $session
         ]);
-
     }
 
     public function payment(Request $request, CheckoutSession $session): Response
     {
-        dd('payment');
+        $payment = $this->checkoutService->preparePayment($session);
+
+        return $this->render('checkout/payment.html.twig', [
+            'session' => $session,
+            'payment' => $payment,
+        ]);
     }
 
     public function finish(Request $request, CheckoutSession $session): Response
