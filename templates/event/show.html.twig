@@ -38,7 +38,7 @@
                 </div>
                 <div>
                     <i class="fas fa-map-marker"></i>
-                    {{ event.place.label }}
+                    {{ event.place.label }} - <a href="https://www.google.com/maps/dir//{{ event.place.address.street ~ "+" ~ event.place.address.zipcode ~ "+" ~ event.place.address.city }}/">Comment s'y rendre ?</a>
                 </div>
             </aside>
         </div>
