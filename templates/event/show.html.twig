@@ -43,6 +43,19 @@
             </aside>
         </div>
 
+        {% if event.participants|length > 1 %}
+            <div class="event-view__participants">
+                {% for participant in event.participants|slice(0, 3) %}
+                    {{ participant.user.displayName }}{{ not loop.last ? ',' : '' }}
+                {% endfor %}
+                {% set otherParticipants = event.participants|slice(3)|length %}
+                {% if otherParticipants > 0 %}
+                    et {{ otherParticipants }} autres personnes
+                {% endif %}
+                y vont
+            </div>
+        {% endif %}
+
         <div class="event-view__actions">
             {% if not app.user or is_granted('BOOKING_CHECKOUT', event) %}
                 <a href="{{ path('checkout_main', {
