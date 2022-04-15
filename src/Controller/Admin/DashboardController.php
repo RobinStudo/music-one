@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Entity\Place;
 use App\Entity\Tag;
+use App\Entity\Topic;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -36,5 +37,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Nomenclature');
         yield MenuItem::linkToCrud('Lieux', 'fas fa-map-marker-alt', Place::class);
         yield MenuItem::linkToCrud('Tags', 'fas fa-tags', Tag::class);
+        yield MenuItem::linkToCrud('Topic', 'fas fa-tags', Topic::class);
     }
 }
