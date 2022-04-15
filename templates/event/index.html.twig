@@ -21,6 +21,10 @@
         </p>
     {% endif %}
 
+    {% for cat in categories %}
+        <a style="color:white" href="{{ path('event_index', {category: cat.name}) }}">{{ cat.name }}</a>
+    {% endfor %}
+
     {% for event in events %}
         <article class="event">
             <a href="{{ path('event_show', {id: event.id}) }}">

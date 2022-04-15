@@ -2,8 +2,10 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Category;
 use App\Form\Type\EventType;
 use App\Repository\EventRepository;
+use App\Repository\CategoryRepository;
 use App\Service\MediaService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -19,24 +21,34 @@ class EventController extends AbstractController
 {
     private EntityManagerInterface $em;
     private EventRepository $eventRepository;
+    private CategoryRepository $categoryRepository;
     private MediaService $mediaService;
 
-    public function __construct(EntityManagerInterface $em, EventRepository $eventRepository, MediaService $mediaService)
+    public function __construct(EntityManagerInterface $em, EventRepository $eventRepository, CategoryRepository $categoryRepository, MediaService $mediaService)
     {
         $this->em = $em;
         $this->eventRepository = $eventRepository;
         $this->mediaService = $mediaService;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * @Route("", name="index")
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $events = $this->eventRepository->findAll();
+        $categories = $this->categoryRepository->findAll();
+
+        if ($request->query->get('category') === null){
+            $events = $this->eventRepository->findAll();
+        } else {
+            $category = $this->categoryRepository->findBy(['name' => $request->query->get('category')]);
+            $events = $this->eventRepository->findBy(['category' => $category]);
+        }
 
         return $this->render('event/index.html.twig', [
-            'events' => $events
+            'events' => $events,
+            'categories' => $categories
         ]);
     }
 
