@@ -44,7 +44,7 @@
         </div>
 
         <div class="event-view__actions">
-            {% if is_granted('BOOKING_CHECKOUT') %}
+            {% if not app.user or is_granted('BOOKING_CHECKOUT', event) %}
                 <a href="{{ path('checkout_main', {
                     event: event.id
                 }) }}" class="button">

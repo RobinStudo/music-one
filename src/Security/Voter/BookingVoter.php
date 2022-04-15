@@ -2,6 +2,7 @@
 
 namespace App\Security\Voter;
 
+use App\Model\CheckoutSession;
 use App\Repository\BookingRepository;
 use App\Service\CheckoutService;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -39,6 +40,17 @@ class BookingVoter extends Voter
             return false;
         }
 
+        if($subject){
+            $counter = $this->bookingRepository->count([
+                'event' => $subject,
+                'user' => $user
+            ]);
+
+            if($counter !== 0){
+                return false;
+            }
+        }
+
         $session = $this->checkoutService->retrieveSession();
         if(!$session){
             return true;
@@ -48,7 +60,7 @@ class BookingVoter extends Voter
             'event' => $session->getEvent(),
             'user' => $user
         ]);
-        if($counter === 0){
+        if($counter === 0 || $session->getStatus() === CheckoutSession::STATUS_FINISH){
             return true;
         }
         
