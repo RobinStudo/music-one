@@ -49,6 +49,10 @@ class BookingVoter extends Voter
             if($counter !== 0){
                 return false;
             }
+
+            if($user === $subject->getOwner()){
+                return false;
+            }
         }
 
         $session = $this->checkoutService->retrieveSession();
